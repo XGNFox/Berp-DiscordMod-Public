@@ -151,7 +151,7 @@ class DiscordmodPlugin {
           }
           return interaction.reply({content: `Successfully executed \`${interaction.options.getString('command')}\`!`, ephemeral: true })
         }
-        if (commandName === 'list') {
+        if (commandNameSub === 'list') {
           try {
             const BOTGT =   this.api.getConnection().getXboxProfile().extraData.displayName
             const REALMNAME = this.api.getConnection().realm.name
@@ -181,12 +181,12 @@ class DiscordmodPlugin {
             })
             const xuid = data.profileUsers[0].id
           interaction.reply({ content: `${interaction.options.getString('gamertag')} has been Whitelisted!`, ephemeral: true })
-          fs.readFile('./plugins/Berp-DiscordMod-main/whitelist.json', 'utf8', (err,data)=>{
+          fs.readFile('./plugins/Berp-DiscordMod-Public-main/whitelist.json', 'utf8', (err,data)=>{
             var obj = JSON.parse(data)
             if(obj.includes(xuid)) return
             obj.push(xuid)
             var json = JSON.stringify(obj)
-            fs.writeFile('./plugins/Berp-DiscordMod-main/whitelist.json', json,err =>{
+            fs.writeFile('./plugins/Berp-DiscordMod-Public-main/whitelist.json', json,err =>{
               if(err) {
                 console.log(err)
                 return
@@ -202,7 +202,7 @@ class DiscordmodPlugin {
               headers:{ 'x-xbl-contract-version': '2','Authorization': `XBL3.0 x=${t.userHash};${t.XSTSToken}`,"Accept-Language": "en-US" }
             })
             const xuid = data.profileUsers[0].id
-          fs.readFile('./plugins/Berp-DiscordMod-main/whitelist.json', 'utf8', (err,data)=>{
+          fs.readFile('./plugins/Berp-DiscordMod-Public-main/whitelist.json', 'utf8', (err,data)=>{
             if(err) return interaction.reply("Could not read whitelist list! An unexpected error occurred! Try again.")
             var obj = JSON.parse(data)
             if(!obj.includes(xuid)) return interaction.reply(`User isn't whitelisted yet!`)
@@ -210,7 +210,7 @@ class DiscordmodPlugin {
               if(obj[i].includes(xuid)) obj.splice(i, 1)
             }
             var json = JSON.stringify(obj)
-            fs.writeFile('./plugins/Berp-DiscordMod-main/whitelist.json', json,err =>{
+            fs.writeFile('./plugins/Berp-DiscordMod-Public-main/whitelist.json', json,err =>{
               if(err) {
                 console.log(err)
                 return interaction.reply("Unexpected error when trying to remove from whitelist!")
@@ -237,11 +237,11 @@ class DiscordmodPlugin {
         }
       })).data.profileUsers[0].settings[0].value
       console.log(GamerScore)
-    fs.readFile(path.resolve('./plugins/Berp-DiscordMod-main/whitelist.json'), 'utf8',  async (err,data)=>{
+    fs.readFile(path.resolve('./plugins/Berp-DiscordMod-Public-main/whitelist.json'), 'utf8',  async (err,data)=>{
       if(!data || err) return console.log(err);
       if(data.includes(p.getXuid())) return 
-if(p.getName().length > 16){this.kickplayer(p,`Invald Gamertag`)}
-    if(BANNED.includes(p.getDevice())){this.kickplayer(p,`AutoMod Violation`)}
+if(p.getName().length > 16) return this.kickplayer(p,`Invald Gamertag`)
+    if(BANNED.includes(p.getDevice())) return this.kickplayer(p,`AutoMod Violation`)
     new Authflow('',`${this.api.path}\\auth`,{ relyingParty: 'http://xboxlive.com'}).getXboxToken().then((t)=>{
       axios.get(`https://titlehub.xboxlive.com/users/xuid(${p.getXuid()})/titles/titlehistory/decoration/scid,image,detail`, {
         headers:{
@@ -250,13 +250,13 @@ if(p.getName().length > 16){this.kickplayer(p,`Invald Gamertag`)}
           "Accept-Language": "en-US"
         }
       }).then((res)=>{
-        if(GamerScore < GAMERSCORE_MINIMUM && !WHITELIST_PSN_XBOX){this.kickplayer(p,`Alt Account Detect, Low Gamerscore!`)}
-        if(GamerScore < GAMERSCORE_MINIMUM && WHITELIST_PSN_XBOX && p.getDevice() != 'PlayStation' && p.getDevice() != 'Xbox'){this.kickplayer(p,`Alt Account Detect, Low Gamerscore!`)}
-        if(!res.data.titles[0]){this.kickplayer(p,`Account is appearing offline/private!`)} 
-        if(BANNED.includes(res.data.titles[0].name.replace(new RegExp('Minecraft for ','g'),''))){this.kickplayer(p,`Recently Played An illegal Device!`)}
-        if(BANNED.includes(res.data.titles[0].name.replace(new RegExp('Minecraft for ','g'),''))){this.kickplayer(p,`Recently Played An illegal Device!`)}
-        if(BANNED.includes(res.data.titles[0].name.replace(new RegExp('Minecraft for ','g'),''))){this.kickplayer(p,`Recently Played An illegal Device!`)}
-      if(!res.data.titles[0].name.includes(`Minecraft`)){this.kickplayer(p,`You aren't playing Minecraft!`)}
+        if(GamerScore < GAMERSCORE_MINIMUM && !WHITELIST_PSN_XBOX) return this.kickplayer(p,`Alt Account Detect, Low Gamerscore!`)
+        if(GamerScore < GAMERSCORE_MINIMUM && WHITELIST_PSN_XBOX && p.getDevice() != 'PlayStation' && p.getDevice() != 'Xbox') return this.kickplayer(p,`Alt Account Detect, Low Gamerscore!`)
+        if(!res.data.titles[0]) return this.kickplayer(p,`Account is appearing offline/private!`)
+        if(BANNED.includes(res.data.titles[0].name.replace(new RegExp('Minecraft for ','g'),''))) return this.kickplayer(p,`Recently Played An illegal Device!`)
+        if(BANNED.includes(res.data.titles[0].name.replace(new RegExp('Minecraft for ','g'),''))) return this.kickplayer(p,`Recently Played An illegal Device!`)
+        if(BANNED.includes(res.data.titles[0].name.replace(new RegExp('Minecraft for ','g'),''))) return this.kickplayer(p,`Recently Played An illegal Device!`)
+      if(!res.data.titles[0].name.includes(`Minecraft`)) return this.kickplayer(p,`You aren't playing Minecraft!`)
       })
     })
   })
