@@ -1,0 +1,17 @@
+{
+    "MOD": true, //Set to false if you don't want automod, true for if you do
+    "DISCORD":true, //Set to false if you don't want chat bridge, true for if you do
+    "WHITELIST_PSN_XBOX":false, //set to true if you want Playstation and xbox players to be able to bypass the gamerscore minimum
+    "REALMCHATID": "000000000000000000", //the channel id of the channel that you want your chat bridge to send to
+    "TOKEN": "TOKEN", //the token of the discord bot
+    "CLIENTID":"0000000000000", //the id of the discord bot
+    "GUILDID":"0000000000000", //the id of the guild your bot is stationed at (MAX: 1)
+    "BANNED": [""], //Example: "BANNED": ["Windows", "Android"] (whitelisted players bypass this)
+    "LOGID":"0000000000000", //the channel id for where automod logs will be sent
+    "EMAIL":"example@gmail.com", //the email of the bot account
+    "REALMID":00000000, //The id of your realm
+     "GAMERSCORE_MINIMUM": 0, //the minimum gamerscore required to play on your realm (whitelisted players bypass this)
+    "ANTISPAM": true, //set to true if you wish to have anti chat spam in your server
+    "BOTGT": "",// the gamertag of the account
+    "XBOXMESSAGE": true // If You want the bot to message anyone that is kicked from the game for the reason they were kicked from the game
+}
