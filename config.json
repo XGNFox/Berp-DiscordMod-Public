@@ -12,6 +12,5 @@
     "REALMID":00000000, //The id of your realm
      "GAMERSCORE_MINIMUM": 0, //the minimum gamerscore required to play on your realm (whitelisted players bypass this)
     "ANTISPAM": true, //set to true if you wish to have anti chat spam in your server
-    "BOTGT": "",// the gamertag of the account
     "XBOXMESSAGE": true // If You want the bot to message anyone that is kicked from the game for the reason they were kicked from the game
 }
